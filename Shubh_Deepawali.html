@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#160C26">
+  <title>Shubh Deepawali — A Night of Sparkle</title>
+  <style>
+    :root {
+      --site-primary: #F2B544;
+      --site-on-primary: #2C1708;
+      --site-secondary: #8D45CF;
+      --site-on-secondary: #FFFFFF;
+      --site-background: #160C26;
+      --site-on-background: #FFF5E0;
+      --site-font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --site-font-heading: Georgia, "Times New Roman", serif;
+      --site-heading-scale: 1;
+      --site-spacing-scale: 1;
+      --site-radius-scale: 1;
+      --site-decoration-opacity: 1;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--site-font-body);
+      background: #160C26;
+    }
+
+    button { font: inherit; }
+
+    .app-root {
+      position: relative;
+      isolation: isolate;
+      min-height: 100svh;
+      width: 100%;
+      overflow: hidden;
+      color: light-dark(var(--site-on-background), #FFF5E0);
+      background-color: light-dark(var(--site-background), #100819);
+      background-image:
+        radial-gradient(ellipse at 50% 44%, color-mix(in srgb, var(--site-secondary) 30%, transparent) 0%, color-mix(in srgb, var(--site-secondary) 16%, transparent) 29%, transparent 59%),
+        radial-gradient(ellipse at 8% 88%, rgba(190, 76, 30, 0.16) 0%, transparent 32%),
+        radial-gradient(ellipse at 93% 16%, rgba(214, 157, 51, 0.12) 0%, transparent 27%);
+      display: flex;
+      flex-direction: column;
+      padding: calc(22px * var(--site-spacing-scale)) clamp(18px, 5vw, 70px) calc(24px * var(--site-spacing-scale));
+      border-radius: 0;
+    }
+
+    .decor-layer {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      opacity: var(--site-decoration-opacity);
+      transition: opacity 180ms ease;
+    }
+
+    .stars {
+      inset: 0;
+      z-index: -1;
+      background-image:
+        radial-gradient(circle at 7% 24%, rgba(255, 224, 157, .95) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 19% 66%, rgba(255, 238, 195, .7) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 31% 18%, rgba(255, 215, 134, .8) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 76% 22%, rgba(255, 234, 184, .8) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 87% 53%, rgba(255, 217, 148, .85) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 68% 74%, rgba(255, 237, 192, .7) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 44% 9%, rgba(255, 229, 171, .7) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 94% 83%, rgba(255, 225, 161, .7) 0 1px, transparent 1.8px);
+    }
+
+    .glow-orb {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      filter: blur(3px);
+      z-index: -1;
+      background: radial-gradient(circle, rgba(181, 85, 226, .16), rgba(181, 85, 226, .04) 45%, transparent 70%);
+      top: 25%;
+      left: calc(50% - 170px);
+    }
+
+    .garland {
+      top: -4px;
+      left: 0;
+      width: 100%;
+      height: clamp(60px, 10vw, 105px);
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .garland svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+    .topbar {
+      position: relative;
+      z-index: 5;
+      width: min(100%, 1440px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--site-on-background);
+      text-decoration: none;
+      letter-spacing: .02em;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(242, 181, 68, .48);
+      border-radius: 50%;
+      background: rgba(242, 181, 68, .08);
+      box-shadow: 0 0 24px rgba(242, 181, 68, .08), inset 0 0 12px rgba(242, 181, 68, .06);
+      color: var(--site-primary);
+    }
+
+    .brand-mark svg { width: 25px; height: 25px; }
+
+    .brand small {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255, 245, 224, .64);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .festival-pill, .sound-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 39px;
+      border: 1px solid rgba(255, 236, 195, .19);
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: rgba(255, 245, 224, .045);
+      color: rgba(255, 245, 224, .88);
+      font-size: 11px;
+      letter-spacing: .06em;
+      font-weight: 650;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+
+    .festival-pill .tiny-star { color: var(--site-primary); font-size: 14px; }
+
+    .sound-toggle {
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .sound-toggle:hover { background: rgba(242, 181, 68, .12); border-color: rgba(242, 181, 68, .52); }
+    .sound-toggle:active { transform: scale(.97); }
+    .sound-toggle:focus-visible, .celebrate-button:focus-visible { outline: 2px solid #FFE2A0; outline-offset: 4px; }
+    .sound-toggle svg { width: 15px; height: 15px; }
+    .sound-toggle[aria-pressed="false"] { color: rgba(255, 245, 224, .65); }
+
+    .hero {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: min(100%, 1040px);
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(58px, 9vh, 104px) 0 clamp(40px, 7vh, 72px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      font-size: 10px;
+      color: #F4C96E;
+      font-weight: 750;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      content: "";
+      display: block;
+      width: 27px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(242, 181, 68, .8));
+    }
+
+    .eyebrow::after { transform: scaleX(-1); }
+
+    h1 {
+      margin: 0;
+      font-family: var(--site-font-heading);
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-size: clamp(47px, 8.7vw, calc(100px * var(--site-heading-scale)));
+      text-wrap: balance;
+      color: #FFF4DB;
+      text-shadow: 0 3px 34px rgba(239, 171, 65, .11);
+    }
+
+    h1 .gold {
+      display: block;
+      color: var(--site-primary);
+      font-style: italic;
+      text-shadow: 0 0 36px rgba(242, 181, 68, .17);
+      padding-right: .06em;
+    }
+
+    .subtitle {
+      margin: 21px auto 0;
+      max-width: 470px;
+      padding: 0 14px;
+      font-size: clamp(13px, 1.35vw, 15px);
+      line-height: 1.8;
+      font-weight: 400;
+      color: rgba(255, 245, 224, .71);
+    }
+
+    .subtitle strong { color: #FFE2A0; font-weight: 600; }
+
+    .celebration-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: clamp(190px, 27vw, 260px);
+      aspect-ratio: 1;
+      margin: clamp(27px, 4.4vh, 42px) 0 18px;
+      isolation: isolate;
+    }
+
+    .rangoli-ring {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(242, 181, 68, .22);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(111, 54, 138, .18), rgba(111, 54, 138, .05) 52%, transparent 70%);
+      box-shadow: 0 0 54px rgba(151, 71, 190, .1), inset 0 0 35px rgba(242, 181, 68, .035);
+      animation: rangoli-turn 90s linear infinite;
+    }
+
+    .rangoli-ring::before, .rangoli-ring::after {
+      content: "";
+      position: absolute;
+      inset: 9%;
+      border: 1px dashed rgba(250, 206, 123, .35);
+      border-radius: 50%;
+    }
+
+    .rangoli-ring::after {
+      inset: 18%;
+      border-style: solid;
+      border-color: rgba(203, 120, 226, .32);
+      box-shadow: 0 0 0 7px rgba(203, 120, 226, .025), 0 0 0 14px rgba(242, 181, 68, .025);
+    }
+
+    .rangoli-petals {
+      position: absolute;
+      inset: 3%;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, transparent 0deg 9deg, rgba(242, 181, 68, .5) 9.3deg 10deg, transparent 10.3deg 22.5deg);
+      mask: radial-gradient(circle, transparent 59%, #000 60%, #000 62%, transparent 63%);
+      -webkit-mask: radial-gradient(circle, transparent 59%, #000 60%, #000 62%, transparent 63%);
+      opacity: .48;
+    }
+
+    .stage-core {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 57%;
+      height: 57%;
+      border-radius: 50%;
+      border: 1px solid rgba(242, 181, 68, .35);
+      background: radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--site-primary) 18%, transparent), color-mix(in srgb, var(--site-secondary) 65%, #1E0F2D) 62%, #1E0F2D 100%);
+      box-shadow: 0 0 36px rgba(177, 91, 205, .18), inset 0 0 27px rgba(242, 181, 68, .055);
+    }
+
+    .stage-diya {
+      width: 53px;
+      height: 53px;
+      color: #FFD56B;
+      filter: drop-shadow(0 0 13px rgba(255, 189, 68, .6));
+      animation: diya-glow 2.6s ease-in-out infinite;
+    }
+
+    .cracker-dock {
+      position: absolute;
+      z-index: 6;
+      right: clamp(12px, 3.5vw, 52px);
+      bottom: clamp(85px, 13vh, 130px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cracker-item {
+      display: grid;
+      justify-items: center;
+      gap: 5px;
+      width: 94px;
+      padding: 9px 7px 8px;
+      border: 1px solid rgba(255, 220, 154, .25);
+      border-radius: 18px;
+      color: #FFF2D4;
+      background: rgba(34, 17, 47, .76);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .22), inset 0 1px rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      animation: cracker-float 3.2s ease-in-out infinite;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .cracker-item:nth-child(2) { animation-delay: -.9s; }
+    .cracker-item:nth-child(3) { animation-delay: -1.7s; }
+    .cracker-item:hover { border-color: rgba(255, 210, 112, .8); background: rgba(70, 35, 78, .92); }
+    .cracker-item:active { transform: scale(.94); }
+    .cracker-item:focus-visible { outline: 2px solid #FFE2A0; outline-offset: 3px; }
+    .cracker-item img { width: 66px; height: 61px; object-fit: contain; filter: drop-shadow(0 4px 9px rgba(255, 170, 49, .22)); }
+    .cracker-item .cracker-emoji { font-size: 39px; line-height: 61px; height: 61px; }
+    .cracker-item span:last-child { font-size: 9px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+
+    @keyframes cracker-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+
+    .stage-caption {
+      margin-top: 4px;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      color: rgba(255, 235, 194, .88);
+      text-transform: uppercase;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      z-index: 2;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #FFD77A;
+      box-shadow: 0 0 12px 3px rgba(242, 181, 68, .33);
+    }
+
+    .orbit-dot.one { top: 11%; left: 22%; }
+    .orbit-dot.two { right: 12%; top: 41%; width: 5px; height: 5px; background: #E7A5FF; box-shadow: 0 0 12px 3px rgba(199, 111, 236, .4); }
+    .orbit-dot.three { left: 19%; bottom: 16%; width: 5px; height: 5px; }
+    .orbit-dot.four { right: 23%; bottom: 8%; width: 4px; height: 4px; background: #E7A5FF; }
+
+    .celebrate-button {
+      position: relative;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 49px;
+      border: 1px solid rgba(255, 223, 155, .85);
+      border-radius: 999px;
+      padding: 0 24px;
+      cursor: pointer;
+      color: var(--site-on-primary);
+      background: linear-gradient(135deg, #FFE39A 0%, var(--site-primary) 50%, #E99A34 100%);
+      box-shadow: 0 8px 32px rgba(235, 157, 50, .2), inset 0 1px rgba(255, 255, 255, .65);
+      text-transform: uppercase;
+      letter-spacing: .115em;
+      font-size: 10px;
+      font-weight: 850;
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    }
+
+    .celebrate-button:hover { transform: translateY(-2px); box-shadow: 0 12px 38px rgba(235, 157, 50, .31), inset 0 1px rgba(255, 255, 255, .65); filter: saturate(1.08); }
+    .celebrate-button:active { transform: translateY(0) scale(.98); }
+    .celebrate-button svg { width: 16px; height: 16px; }
+
+    .hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+      color: rgba(255, 245, 224, .56);
+      font-size: 11px;
+      letter-spacing: .02em;
+    }
+
+    .hint svg { width: 14px; height: 14px; color: #F2C76C; }
+
+    .bottomline {
+      position: relative;
+      z-index: 4;
+      width: min(100%, 1440px);
+      margin: auto auto 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 8px;
+    }
+
+    .wish {
+      color: rgba(255, 245, 224, .56);
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .wish span { color: #EEC16A; }
+
+    .bottom-note {
+      color: rgba(255, 245, 224, .4);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-align: right;
+    }
+
+    .diya-row {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: clamp(62px, 11vh, 100px);
+      z-index: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 0 2.5% 4px;
+      background: linear-gradient(0deg, rgba(9, 4, 15, .65), transparent);
+    }
+
+    .diya {
+      width: clamp(24px, 3vw, 40px);
+      height: auto;
+      overflow: visible;
+      opacity: .86;
+      filter: drop-shadow(0 0 8px rgba(243, 156, 41, .29));
+    }
+
+    .diya:nth-child(2n) { transform: translateY(-7px) scale(.77); opacity: .52; }
+    .diya:nth-child(3n) { transform: translateY(-2px) scale(.9); opacity: .68; }
+    .canvas-layer {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .footer-glow {
+      position: absolute;
+      left: 50%;
+      bottom: -100px;
+      width: 65vw;
+      height: 170px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(213, 117, 38, .17), transparent 68%);
+      filter: blur(15px);
+    }
+
+    @keyframes rangoli-turn { to { transform: rotate(360deg); } }
+    @keyframes diya-glow { 0%, 100% { filter: drop-shadow(0 0 9px rgba(255, 189, 68, .36)); transform: translateY(0); } 50% { filter: drop-shadow(0 0 19px rgba(255, 189, 68, .8)); transform: translateY(-3px); } }
+
+    @media (min-width: 1100px) and (min-height: 760px) {
+      .hero { padding-top: 75px; padding-bottom: 65px; }
+      .celebration-stage { margin-top: 35px; }
+    }
+
+    @media (max-width: 560px) {
+      .app-root { padding: 16px 18px 18px; }
+      .garland { height: 61px; }
+      .topbar { align-items: flex-start; }
+      .brand { font-size: 11px; gap: 8px; }
+      .brand-mark { width: 34px; height: 34px; }
+      .brand small { font-size: 8px; }
+      .festival-pill { display: none; }
+      .sound-toggle { min-height: 35px; padding: 8px 11px; font-size: 10px; }
+      .hero { padding: 67px 0 67px; }
+      .eyebrow { font-size: 8px; letter-spacing: .18em; margin-bottom: 18px; }
+      h1 { font-size: clamp(49px, 13.6vw, 70px); }
+      .subtitle { margin-top: 16px; font-size: 12px; line-height: 1.7; max-width: 340px; }
+      .celebration-stage { width: clamp(174px, 54vw, 215px); margin: 26px 0 16px; }
+      .stage-diya { width: 46px; height: 46px; }
+      .celebrate-button { min-height: 46px; font-size: 9px; padding: 0 19px; }
+      .hint { font-size: 10px; }
+      .bottomline { align-items: center; padding-bottom: 3px; }
+      .wish { font-size: 8px; letter-spacing: .11em; }
+      .bottom-note { font-size: 9px; max-width: 120px; line-height: 1.5; }
+      .diya-row { height: 62px; padding: 0 0 3px; }
+      .cracker-dock { right: 9px; bottom: 77px; gap: 7px; }
+      .cracker-item { width: 66px; padding: 6px 4px; border-radius: 13px; gap: 2px; }
+      .cracker-item img { width: 46px; height: 43px; }
+      .cracker-item .cracker-emoji { font-size: 29px; line-height: 43px; height: 43px; }
+      .cracker-item span:last-child { font-size: 7px; letter-spacing: .03em; }
+    }
+
+    @media (max-height: 720px) and (min-width: 561px) {
+      .app-root { padding-top: 14px; padding-bottom: 15px; }
+      .hero { padding-top: 36px; padding-bottom: 35px; }
+      h1 { font-size: clamp(48px, 6.7vw, 75px); }
+      .subtitle { margin-top: 13px; }
+      .celebration-stage { width: clamp(155px, 22vh, 205px); margin: 20px 0 12px; }
+      .stage-diya { width: 44px; height: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-root" id="appRoot" aria-label="Interactive Diwali celebration">
+    <div class="decor-layer stars" aria-hidden="true"></div>
+    <div class="decor-layer glow-orb" aria-hidden="true"></div>
+    <div class="decor-layer footer-glow" aria-hidden="true"></div>
+
+    <div class="decor-layer garland" aria-hidden="true">
+      <svg viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cord" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#86502C"/><stop offset=".5" stop-color="#F2B544"/><stop offset="1" stop-color="#86502C"/></linearGradient>
+          <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFD66C"/><stop offset="1" stop-color="#E78A2F"/></linearGradient>
+        </defs>
+        <path d="M0 0 Q360 150 720 0 T1440 0" fill="none" stroke="url(#cord)" stroke-width="2" opacity=".7"/>
+        <path d="M0 2 Q360 136 720 2 T1440 2" fill="none" stroke="#F2B544" stroke-width=".5" opacity=".38"/>
+        <g fill="url(#petal)" stroke="#AE6028" stroke-width=".7">
+          <g transform="translate(95 35) rotate(-14)"><ellipse cy="9" rx="7" ry="17"/><ellipse cx="-8" cy="9" rx="6" ry="15" transform="rotate(-34 -8 9)"/><ellipse cx="8" cy="9" rx="6" ry="15" transform="rotate(34 8 9)"/><circle cy="8" r="5" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(250 67) rotate(-8)"><ellipse cy="8" rx="6" ry="15"/><ellipse cx="-7" cy="8" rx="5" ry="13" transform="rotate(-34 -7 8)"/><ellipse cx="7" cy="8" rx="5" ry="13" transform="rotate(34 7 8)"/><circle cy="7" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(415 77) rotate(-4)"><ellipse cy="7" rx="6" ry="14"/><ellipse cx="-7" cy="7" rx="5" ry="12" transform="rotate(-34 -7 7)"/><ellipse cx="7" cy="7" rx="5" ry="12" transform="rotate(34 7 7)"/><circle cy="6" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(575 66)"><ellipse cy="7" rx="6" ry="15"/><ellipse cx="-7" cy="7" rx="5" ry="12" transform="rotate(-34 -7 7)"/><ellipse cx="7" cy="7" rx="5" ry="12" transform="rotate(34 7 7)"/><circle cy="6" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(735 29) rotate(3)"><ellipse cy="8" rx="7" ry="17"/><ellipse cx="-8" cy="8" rx="6" ry="14" transform="rotate(-34 -8 8)"/><ellipse cx="8" cy="8" rx="6" ry="14" transform="rotate(34 8 8)"/><circle cy="7" r="5" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(900 64) rotate(4)"><ellipse cy="7" rx="6" ry="15"/><ellipse cx="-7" cy="7" rx="5" ry="12" transform="rotate(-34 -7 7)"/><ellipse cx="7" cy="7" rx="5" ry="12" transform="rotate(34 7 7)"/><circle cy="6" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(1060 77) rotate(6)"><ellipse cy="7" rx="6" ry="14"/><ellipse cx="-7" cy="7" rx="5" ry="12" transform="rotate(-34 -7 7)"/><ellipse cx="7" cy="7" rx="5" ry="12" transform="rotate(34 7 7)"/><circle cy="6" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(1220 60) rotate(8)"><ellipse cy="8" rx="6" ry="15"/><ellipse cx="-7" cy="8" rx="5" ry="13" transform="rotate(-34 -7 8)"/><ellipse cx="7" cy="8" rx="5" ry="13" transform="rotate(34 7 8)"/><circle cy="7" r="4" fill="#7EAD54" stroke="none"/></g>
+          <g transform="translate(1370 29) rotate(14)"><ellipse cy="9" rx="7" ry="17"/><ellipse cx="-8" cy="9" rx="6" ry="15" transform="rotate(-34 -8 9)"/><ellipse cx="8" cy="9" rx="6" ry="15" transform="rotate(34 8 9)"/><circle cy="8" r="5" fill="#7EAD54" stroke="none"/></g>
+        </g>
+        <g fill="#D75D45" stroke="#7E3428" stroke-width=".6">
+          <circle cx="170" cy="55" r="5"/><circle cx="330" cy="79" r="5"/><circle cx="490" cy="82" r="5"/><circle cx="650" cy="48" r="5"/><circle cx="815" cy="47" r="5"/><circle cx="980" cy="78" r="5"/><circle cx="1140" cy="75" r="5"/><circle cx="1300" cy="45" r="5"/>
+        </g>
+        <g fill="#F8CF6A" opacity=".9"><circle cx="170" cy="55" r="1.4"/><circle cx="330" cy="79" r="1.4"/><circle cx="490" cy="82" r="1.4"/><circle cx="650" cy="48" r="1.4"/><circle cx="815" cy="47" r="1.4"/><circle cx="980" cy="78" r="1.4"/><circle cx="1140" cy="75" r="1.4"/><circle cx="1300" cy="45" r="1.4"/></g>
+      </svg>
+    </div>
+
+    <header class="topbar">
+      <div class="brand" aria-label="Deepavali, festival of lights">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 3C11.6 8.4 13.8 11.5 16 13.3C18.3 11.2 20.5 8.5 16 3Z" fill="#FFD66C"/>
+            <path d="M8 16C8.8 21.4 12.2 24.3 16 24.3C19.8 24.3 23.2 21.4 24 16H8Z" fill="#EAA144"/>
+            <path d="M5 16H27C26 23.2 21.6 27 16 27C10.4 27 6 23.2 5 16Z" stroke="#FFD66C" stroke-width="1.3"/>
+            <path d="M9 29H23" stroke="#FFD66C" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>Deepavali<small>Festival of lights</small></span>
+      </div>
+      <div class="top-actions">
+        <div class="festival-pill"><span class="tiny-star">✦</span> A LITTLE MAGIC, A LOT OF LIGHT</div>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" aria-label="Turn celebration sounds off">
+          <svg id="soundIcon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 8V12H6L10 15V5L6 8H3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 7C14.7 8.5 14.7 11.5 13 13M15.4 4.8C18.4 7.6 18.4 12.4 15.4 15.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span id="soundLabel">SOUND ON</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="eyebrow">Light up the night</div>
+      <h1 id="heroTitle">Shubh <span class="gold">Deepawali</span></h1>
+      <p class="subtitle">May your days glow with <strong>happiness</strong>, your home shine with <strong>love</strong>, and your night sparkle with a little magic.</p>
+
+      <div class="celebration-stage" aria-label="A glowing diya surrounded by a rangoli pattern">
+        <div class="rangoli-ring" aria-hidden="true"></div>
+        <div class="rangoli-petals" aria-hidden="true"></div>
+        <span class="orbit-dot one" aria-hidden="true"></span>
+        <span class="orbit-dot two" aria-hidden="true"></span>
+        <span class="orbit-dot three" aria-hidden="true"></span>
+        <span class="orbit-dot four" aria-hidden="true"></span>
+        <div class="stage-core">
+          <svg class="stage-diya" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M31.9 5C23.4 15.5 28 21 32 24.2C36.3 20 40.4 14.8 31.9 5Z" fill="#FFF2A6"/>
+            <path d="M31.8 12.5C27.7 19 30.3 21.8 32 23C34.1 20.4 35.9 17.4 31.8 12.5Z" fill="#FF9C36"/>
+            <path d="M13 34C14.4 45.1 22.2 52 32 52C41.8 52 49.6 45.1 51 34H13Z" fill="#E9963F"/>
+            <path d="M10 33.5H54C52.3 46.9 43.8 54.5 32 54.5C20.2 54.5 11.7 46.9 10 33.5Z" stroke="#FFD66C" stroke-width="2"/>
+            <path d="M19 58H45" stroke="#FFD66C" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19 40C23.5 43.5 40.5 43.5 45 40" stroke="#FFC65C" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <div class="stage-caption">Let it glow</div>
+        </div>
+      </div>
+
+      <button class="celebrate-button" id="celebrateButton" type="button">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 1.8L11.8 7.1L17.2 5.1L14 10L18.2 13.4L12.6 13.6L10.8 18.8L8.7 13.7L3.1 14.2L6.7 10L3.4 5.5L8.5 7.1L10 1.8Z" fill="currentColor"/></svg>
+        Light up the sky
+      </button>
+      <div class="hint">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 17V3M5 7L10 2L15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 11V15.5C4 16.3 4.7 17 5.5 17H14.5C15.3 17 16 16.3 16 15.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Click anywhere to burst into colour
+      </div>
+    </section>
+
+    <aside class="cracker-dock" aria-label="Interactive Diwali crackers">
+      <button class="cracker-item" type="button" data-cracker="sutli" aria-label="Play sutli bomb crackling sound and fireworks">
+        <img src="https://5.imimg.com/data5/MI/WX/MY-14394076/sutli-bomb-cracker-1000x1000.jpg" alt="Sutli bomb cracker" loading="eager" referrerpolicy="no-referrer">
+        <span>Sutli Bomb</span>
+      </button>
+      <button class="cracker-item" type="button" data-cracker="rocket" aria-label="Launch a rocket firework">
+        <img src="https://www.sivakasifireworks.net/wp-content/uploads/2017/01/rockets.png" alt="Rocket fireworks" loading="eager" referrerpolicy="no-referrer">
+        <span>Rocket</span>
+      </button>
+      <button class="cracker-item" type="button" data-cracker="sparkler" aria-label="Play sparkler sound and glitter">
+        <span class="cracker-emoji" aria-hidden="true">✨</span>
+        <span>Phuljhadi</span>
+      </button>
+    </aside>
+
+    <footer class="bottomline">
+      <div class="wish">Made with <span>✦</span> &amp; festive wishes</div>
+      <div class="bottom-note">Good vibes. Bright skies. Happy Diwali.</div>
+    </footer>
+
+    <div class="decor-layer diya-row" aria-hidden="true">
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg class="diya" viewBox="0 0 42 48" fill="none"><path d="M21 2C14 11 18 15 21 17C25 14 28 9 21 2Z" fill="#FFE6A0"/><path d="M8 25H34C33 34 28 39 21 39C14 39 9 34 8 25Z" fill="#D98231" stroke="#F6C15E" stroke-width="1.4"/><path d="M4 25H38C36 36 30 42 21 42C12 42 6 36 4 25Z" stroke="#DCA449" stroke-width="1.4"/><path d="M13 46H29" stroke="#DCA449" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+
+    <canvas class="canvas-layer" id="fireworksCanvas" aria-hidden="true"></canvas>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.getElementById('appRoot');
+      const canvas = document.getElementById('fireworksCanvas');
+      const ctx = canvas.getContext('2d');
+      const celebrateButton = document.getElementById('celebrateButton');
+      const soundToggle = document.getElementById('soundToggle');
+      const soundLabel = document.getElementById('soundLabel');
+      const soundIcon = document.getElementById('soundIcon');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const MAX_ROCKETS = 12;
+      const MAX_PARTICLES = 950;
+      const MAX_BURSTS_PER_SECOND = 8;
+      const burstTimes = [];
+      let lastFrameTime = 0;
+      let resizeFrame = 0;
+
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      let soundEnabled = true;
+      let audioContext = null;
+      let animationFrame = 0;
+      const rockets = [];
+      const particles = [];
+      const colors = [42, 280, 320, 190, 48, 12, 252];
+      const random = (min, max) => min + Math.random() * (max - min);
+
+      function resizeCanvas() {
+        const bounds = root.getBoundingClientRect();
+        width = bounds.width;
+        height = bounds.height;
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * pixelRatio);
+        canvas.height = Math.floor(height * pixelRatio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+      }
+
+      function allowBurst() {
+        const now = performance.now();
+        while (burstTimes.length && now - burstTimes[0] > 1000) burstTimes.shift();
+        if (burstTimes.length >= MAX_BURSTS_PER_SECOND) return false;
+        burstTimes.push(now);
+        return true;
+      }
+
+      function getAudioContext() {
+        if (!soundEnabled) return null;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return null;
+        if (!audioContext) audioContext = new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+        return audioContext;
+      }
+
+      function playLaunch() {
+        const audio = getAudioContext();
+        if (!audio) return;
+        const now = audio.currentTime;
+        const oscillator = audio.createOscillator();
+        const gain = audio.createGain();
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(random(290, 390), now);
+        oscillator.frequency.exponentialRampToValueAtTime(random(700, 980), now + 0.19);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.08, now + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+        oscillator.connect(gain);
+        gain.connect(audio.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.23);
+      }
+
+      function playBurst() {
+        const audio = getAudioContext();
+        if (!audio) return;
+        const now = audio.currentTime;
+        const duration = 0.48;
+        const buffer = audio.createBuffer(1, Math.floor(audio.sampleRate * duration), audio.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          const envelope = Math.pow(1 - i / data.length, 2.4);
+          data[i] = (Math.random() * 2 - 1) * envelope;
+        }
+        const noise = audio.createBufferSource();
+        const filter = audio.createBiquadFilter();
+        const crackleGain = audio.createGain();
+        noise.buffer = buffer;
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(4200, now);
+        filter.frequency.exponentialRampToValueAtTime(520, now + duration);
+        crackleGain.gain.setValueAtTime(0.0001, now);
+        crackleGain.gain.exponentialRampToValueAtTime(0.48, now + 0.012);
+        crackleGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        noise.connect(filter);
+        filter.connect(crackleGain);
+        crackleGain.connect(audio.destination);
+        noise.start(now);
+        noise.stop(now + duration);
+
+        const boom = audio.createOscillator();
+        const boomGain = audio.createGain();
+        boom.type = 'sine';
+        boom.frequency.setValueAtTime(105, now);
+        boom.frequency.exponentialRampToValueAtTime(38, now + 0.25);
+        boomGain.gain.setValueAtTime(0.0001, now);
+        boomGain.gain.exponentialRampToValueAtTime(0.28, now + 0.013);
+        boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.31);
+        boom.connect(boomGain);
+        boomGain.connect(audio.destination);
+        boom.start(now);
+        boom.stop(now + 0.33);
+
+        for (let i = 0; i < 5; i++) {
+          const tick = audio.createOscillator();
+          const tickGain = audio.createGain();
+          const start = now + random(0.025, 0.22);
+          tick.type = 'triangle';
+          tick.frequency.setValueAtTime(random(1050, 2200), start);
+          tickGain.gain.setValueAtTime(0.0001, start);
+          tickGain.gain.exponentialRampToValueAtTime(random(0.018, 0.055), start + 0.006);
+          tickGain.gain.exponentialRampToValueAtTime(0.0001, start + random(0.035, 0.075));
+          tick.connect(tickGain);
+          tickGain.connect(audio.destination);
+          tick.start(start);
+          tick.stop(start + 0.09);
+        }
+      }
+
+      function playSutliCrackle() {
+        const audio = getAudioContext();
+        if (!audio) return;
+        const now = audio.currentTime;
+        const duration = 0.95;
+        const buffer = audio.createBuffer(1, Math.floor(audio.sampleRate * duration), audio.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          const t = i / data.length;
+          const envelope = Math.pow(1 - t, 1.35) * (Math.random() > 0.77 ? 1 : 0.38);
+          data[i] = (Math.random() * 2 - 1) * envelope;
+        }
+        const source = audio.createBufferSource();
+        const filter = audio.createBiquadFilter();
+        const gain = audio.createGain();
+        source.buffer = buffer;
+        filter.type = 'highpass';
+        filter.frequency.value = 650;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.48, now + 0.018);
+        gain.gain.setValueAtTime(0.24, now + 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(audio.destination);
+        source.start(now);
+        source.stop(now + duration);
+        for (let i = 0; i < 11; i++) {
+          const tick = audio.createOscillator();
+          const tickGain = audio.createGain();
+          const start = now + random(0.025, 0.82);
+          tick.type = 'square';
+          tick.frequency.setValueAtTime(random(700, 2500), start);
+          tickGain.gain.setValueAtTime(0.0001, start);
+          tickGain.gain.exponentialRampToValueAtTime(random(0.025, 0.075), start + 0.003);
+          tickGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.025);
+          tick.connect(tickGain);
+          tickGain.connect(audio.destination);
+          tick.start(start);
+          tick.stop(start + 0.03);
+        }
+      }
+
+      function playCrackerSound() {
+        if (!soundEnabled) return;
+        playLaunch();
+        window.setTimeout(() => {
+          if (soundEnabled) playBurst();
+        }, 160);
+      }
+
+      function explode(x, y, hue) {
+        const available = Math.max(0, MAX_PARTICLES - particles.length);
+        const count = Math.min(available, reduceMotion ? 26 : Math.floor(random(42, 72)));
+        const baseSize = random(1.3, 2.7);
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i / count) + random(-0.07, 0.07);
+          const speed = Math.pow(Math.random(), 0.35) * random(2.1, 6.5);
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            gravity: random(0.025, 0.075),
+            friction: random(0.982, 0.992),
+            hue: hue + random(-18, 18),
+            alpha: 1,
+            decay: random(0.009, 0.019),
+            size: baseSize * random(0.55, 1.15),
+            twinkle: Math.random() > 0.72,
+            trailX: x,
+            trailY: y
+          });
+        }
+        const glitterCount = Math.min(Math.max(0, MAX_PARTICLES - particles.length), reduceMotion ? 4 : 10);
+        for (let i = 0; i < glitterCount; i++) {
+          const angle = random(0, Math.PI * 2);
+          const speed = random(0.8, 4.2);
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            gravity: 0.045,
+            friction: 0.985,
+            hue: Math.random() > 0.5 ? 43 : hue + 30,
+            alpha: 1,
+            decay: random(0.017, 0.035),
+            size: random(0.6, 1.5),
+            twinkle: true,
+            trailX: x,
+            trailY: y
+          });
+        }
+      }
+
+      function launchFirework(x, y, shouldSound = true) {
+        if (rockets.length >= MAX_ROCKETS || !allowBurst()) return;
+        const safeX = Math.max(18, Math.min(width - 18, x));
+        const safeY = Math.max(72, Math.min(height - 48, y));
+        const hue = colors[Math.floor(Math.random() * colors.length)];
+        const fromX = Math.max(8, Math.min(width - 8, safeX + random(-65, 65)));
+        const fromY = Math.min(height + 20, Math.max(safeY + 90, safeY + random(120, 205)));
+        rockets.push({
+          x: fromX,
+          y: fromY,
+          startX: fromX,
+          startY: fromY,
+          targetX: safeX,
+          targetY: safeY,
+          hue,
+          speed: random(7, 10),
+          trail: [],
+          shouldSound
+        });
+        if (shouldSound) playCrackerSound();
+        if (!animationFrame) animationFrame = requestAnimationFrame(animate);
+      }
+
+      function drawRocket(rocket) {
+        const dx = rocket.targetX - rocket.x;
+        const dy = rocket.targetY - rocket.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        rocket.trail.push({ x: rocket.x, y: rocket.y });
+        if (rocket.trail.length > 6) rocket.trail.shift();
+        if (distance < rocket.speed + 3) {
+          explode(rocket.targetX, rocket.targetY, rocket.hue);
+          return false;
+        }
+        rocket.x += dx / distance * rocket.speed;
+        rocket.y += dy / distance * rocket.speed;
+        ctx.lineCap = 'round';
+        for (let i = 0; i < rocket.trail.length - 1; i++) {
+          const a = i / rocket.trail.length;
+          ctx.beginPath();
+          ctx.moveTo(rocket.trail[i].x, rocket.trail[i].y);
+          ctx.lineTo(rocket.trail[i + 1].x, rocket.trail[i + 1].y);
+          ctx.strokeStyle = `hsla(${rocket.hue}, 100%, ${72 + a * 15}%, ${a * 0.75})`;
+          ctx.lineWidth = 1 + a * 1.1;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.arc(rocket.x, rocket.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${rocket.hue}, 100%, 82%)`;
+        ctx.shadowColor = `hsl(${rocket.hue}, 100%, 66%)`;
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        return true;
+      }
+
+      function drawParticle(particle) {
+        particle.trailX = particle.x;
+        particle.trailY = particle.y;
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vx *= particle.friction;
+        particle.vy = particle.vy * particle.friction + particle.gravity;
+        particle.alpha -= particle.decay;
+        if (particle.alpha <= 0) return false;
+
+        const flicker = particle.twinkle ? random(0.52, 1.12) : 1;
+        ctx.beginPath();
+        ctx.moveTo(particle.trailX, particle.trailY);
+        ctx.lineTo(particle.x, particle.y);
+        ctx.strokeStyle = `hsla(${particle.hue}, 100%, 72%, ${Math.max(0, particle.alpha * 0.75)})`;
+        ctx.lineWidth = particle.size * 0.8;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, Math.max(0.25, particle.size * flicker), 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${particle.hue}, 100%, ${66 + flicker * 15}%, ${Math.max(0, particle.alpha)})`;
+        ctx.shadowColor = `hsla(${particle.hue}, 100%, 65%, ${particle.alpha})`;
+        ctx.shadowBlur = particle.twinkle ? 9 : 4;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        return true;
+      }
+
+      function animate() {
+        animationFrame = 0;
+        const now = performance.now();
+        if (lastFrameTime && now - lastFrameTime < 16) {
+          animationFrame = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = now;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.19)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (let i = rockets.length - 1; i >= 0; i--) {
+          if (!drawRocket(rockets[i])) rockets.splice(i, 1);
+        }
+        for (let i = particles.length - 1; i >= 0; i--) {
+          if (!drawParticle(particles[i])) particles.splice(i, 1);
+        }
+        ctx.restore();
+        if (rockets.length || particles.length) {
+          animationFrame = requestAnimationFrame(animate);
+        } else {
+          lastFrameTime = 0;
+          ctx.clearRect(0, 0, width, height);
+        }
+      }
+
+      function launchAtPoint(x, y, bigger = false) {
+        launchFirework(x, y, true);
+        if (bigger) {
+          window.setTimeout(() => launchFirework(x + random(-95, 95), y + random(-65, 55), true), 240);
+          window.setTimeout(() => launchFirework(x + random(-125, 125), y + random(-80, 45), true), 480);
+        }
+      }
+
+      root.addEventListener('pointerdown', (event) => {
+        if (event.target.closest('button')) return;
+        const rect = root.getBoundingClientRect();
+        launchAtPoint(event.clientX - rect.left, event.clientY - rect.top, false);
+      });
+
+      celebrateButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const rect = root.getBoundingClientRect();
+        launchAtPoint(rect.width * random(0.37, 0.63), rect.height * random(0.25, 0.43), true);
+      });
+
+      document.querySelectorAll('[data-cracker]').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.stopPropagation();
+          const rect = root.getBoundingClientRect();
+          const x = random(rect.width * 0.28, rect.width * 0.72);
+          const y = random(rect.height * 0.22, rect.height * 0.48);
+          const type = button.dataset.cracker;
+          if (type === 'sutli') {
+            if (soundEnabled) playSutliCrackle();
+            launchFirework(x, y, false);
+            window.setTimeout(() => launchFirework(x + random(-70, 70), y + random(-45, 45), false), 150);
+          } else if (type === 'rocket') {
+            launchFirework(x, y, true);
+            window.setTimeout(() => launchFirework(x + random(-90, 90), y - 35, true), 220);
+          } else {
+            if (soundEnabled) playBurst();
+            explode(x, y, 48);
+            if (!animationFrame) animationFrame = requestAnimationFrame(animate);
+          }
+        });
+      });
+
+      soundToggle.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+        soundToggle.setAttribute('aria-label', soundEnabled ? 'Turn celebration sounds off' : 'Turn celebration sounds on');
+        soundLabel.textContent = soundEnabled ? 'SOUND ON' : 'SOUND OFF';
+        soundIcon.innerHTML = soundEnabled
+          ? '<path d="M3 8V12H6L10 15V5L6 8H3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 7C14.7 8.5 14.7 11.5 13 13M15.4 4.8C18.4 7.6 18.4 12.4 15.4 15.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+          : '<path d="M3 8V12H6L10 15V5L6 8H3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 7L18 13M18 7L13.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>';
+        if (soundEnabled) getAudioContext();
+      });
+
+      resizeCanvas();
+      window.addEventListener('resize', () => {
+        if (resizeFrame) cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+          resizeFrame = 0;
+          resizeCanvas();
+        });
+      }, { passive: true });
+      window.setTimeout(() => {
+        launchFirework(width * 0.5, height * 0.29, false);
+      }, 850);
+      window.setTimeout(() => {
+        launchFirework(width * 0.73, height * 0.35, false);
+      }, 1600);
+    })();
+  </script>
+</body>
+</html>
